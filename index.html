@@ -1,71 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Adejumo Tobiloba | Website Builder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    p {
-      line-height: 1.7;
-      font-size: 1.05rem;
-    }
-    .card {
-      background: #020617;
-      padding: 20px;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-    a {
-      color: #38bdf8;
-      text-decoration: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adejumo Tobiloba | Game Systems Developer</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+  background: black;
+  color: #00ff99;
+}
+
+/* MATRIX CANVAS */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+
+/* GLITCH TITLE */
+.glitch {
+  font-size: 2.5rem;
+  position: relative;
+  text-transform: uppercase;
+  animation: flicker 2s infinite alternate;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.glitch::before {
+  color: #ff00ff;
+  animation: glitchTop 1s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  color: #00ffff;
+  animation: glitchBottom 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitchTop {
+  0% { clip-path: inset(0 0 80% 0); transform: translate(-2px, -2px); }
+  50% { clip-path: inset(20% 0 40% 0); transform: translate(2px, 2px); }
+  100% { clip-path: inset(40% 0 20% 0); transform: translate(-1px, 1px); }
+}
+
+@keyframes glitchBottom {
+  0% { clip-path: inset(60% 0 0 0); transform: translate(2px, 2px); }
+  50% { clip-path: inset(40% 0 20% 0); transform: translate(-2px, -2px); }
+  100% { clip-path: inset(80% 0 0 0); transform: translate(1px, -1px); }
+}
+
+@keyframes flicker {
+  0%,18%,22%,25%,53%,57%,100% {
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+  }
+  20%,24%,55% {
+    text-shadow: none;
+  }
+}
+
+/* MENU */
+.menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.menu button {
+  display: block;
+  width: 260px;
+  margin: 15px auto;
+  padding: 15px;
+  background: transparent;
+  border: 1px solid #00ff99;
+  color: #00ff99;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu button:hover {
+  background: #00ff99;
+  color: black;
+  box-shadow: 0 0 20px #00ff99;
+  transform: scale(1.05);
+}
+
+/* PANEL */
+.panel {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.97);
+  padding: 40px;
+  transition: 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.panel.active {
+  left: 0;
+}
+
+.panel h2 {
+  text-shadow: 0 0 10px #00ff99;
+}
+
+.back {
+  margin-top: 30px;
+  padding: 10px 20px;
+  border: 1px solid #00ff99;
+  background: transparent;
+  color: #00ff99;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back:hover {
+  background: #00ff99;
+  color: black;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Hi, I’m Adejumo Tobiloba 👋</h1>
-    <p>I build and sell clean, functional websites and starter projects.</p>
 
-    <div class="card">
-      <h2>What I Do</h2>
-      <p>
-        • Website design (HTML, CSS, JavaScript)<br>
-        • Beginner-friendly starter sites<br>
-        • SEO-ready blog setups<br>
-        • Flippa website listings
-      </p>
-    </div>
+<canvas id="matrix"></canvas>
 
-    <div class="card">
-      <h2>Why Buy From Me?</h2>
-      <p>
-        My sites are simple, fast, and easy to improve.  
-        Perfect for beginners, flippers, or anyone who wants a clean starting point.
-      </p>
-    </div>
+<div class="menu">
+  <h1 class="glitch" data-text="Adejumo Tobiloba">Adejumo Tobiloba</h1>
+  <p id="typing"></p>
 
-    <div class="card">
-      <h2>Contact</h2>
-      <p>
-        Email: <a href="mailto:backuptobs1@gmail.com">backuptobs1@gmail.com</a>
-      </p>
-    </div>
-  </div>
+  <button onclick="openPanel('about')">SYSTEMS</button>
+  <button onclick="openPanel('game')">GAME ENGINE</button>
+  <button onclick="openPanel('contact')">CONTACT</button>
+</div>
+
+<div id="about" class="panel">
+  <h2>Web & Systems Developer</h2>
+  <p>
+    Architecting clean, scalable web systems.<br><br>
+    • HTML / CSS / JavaScript<br>
+    • Performance optimization<br>
+    • System architecture mindset
+  </p>
+  <button class="back" onclick="closePanel()">Back</button>
+</div>
+
+<div id="game" class="panel">
+  <h2>Game Logic Architect</h2>
+  <p>
+    I design and implement the logic layer of interactive games.<br><br>
+    • Core gameplay mechanics<br>
+    • Physics & collision systems<br>
+    • Player control scripting<br>
+    • UI event systems<br>
+    • Debugging & optimization<br><br>
+    Visual assets developed collaboratively.
+  </p>
+  <button class="back" onclick="closePanel()">Back</button>
+</div>
+
+<div id="contact" class="panel">
+  <h2>Direct Communication</h2>
+  <p>Email: backuptobs1@gmail.com</p>
+  <button class="back" onclick="closePanel()">Back</button>
+</div>
+
+<script>
+/* PANEL CONTROL */
+function openPanel(id) {
+  document.getElementById(id).classList.add("active");
+}
+function closePanel() {
+  document.querySelectorAll(".panel").forEach(panel => {
+    panel.classList.remove("active");
+  });
+}
+
+/* TYPING EFFECT */
+const text = "Game Systems Developer | Logic Architect | Interactive Engineer";
+let index = 0;
+function type() {
+  if (index < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(index);
+    index++;
+    setTimeout(type, 40);
+  }
+}
+type();
+
+/* MATRIX */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for (let x = 0; x < columns; x++) drops[x] = 1;
+
+function draw() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#00ff99";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random()*letters.length));
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if (drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+      drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(draw, 33);
+</script>
+
 </body>
 </html>
