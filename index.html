@@ -135,6 +135,16 @@ canvas {
   background: #00ff99;
   color: black;
 }
+.contact-link {
+  color: #00ff99;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.contact-link:hover {
+  text-shadow: 0 0 10px #00ff99;
+  letter-spacing: 1px;
+}
 </style>
 </head>
 
@@ -178,9 +188,28 @@ canvas {
 
 <div id="contact" class="panel">
   <h2>Direct Communication</h2>
-  <p>Email: backuptobs1@gmail.com</p>
-  <p>https://wa.me/2347086729950
-‎</p>
+
+  <p>
+    📧 Email: 
+    <a href="mailto:backuptobs1@gmail.com" class="contact-link">
+      backuptobs1@gmail.com
+    </a>
+  </p>
+
+  <p>
+    📞 Phone: 
+    <a href="tel:+2347086729950" class="contact-link">
+      +234 708 672 9950
+    </a>
+  </p>
+
+  <p>
+    💬 WhatsApp: 
+    <a href="https://wa.me/2347086729950" target="_blank" class="contact-link">
+      Chat on WhatsApp
+    </a>
+  </p>
+
   <button class="back" onclick="closePanel()">Back</button>
 </div>
 
